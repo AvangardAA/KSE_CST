@@ -46,6 +46,27 @@ int main()
                 std::cout << "available files in server directory:\n";
                 std::cout << client.list() << "\n";
             }
+
+            else if (command == MsgType::PUT)
+            {
+                std::cout << "input filename and extension to create: ";
+                std::cin >> fName;
+                std::cout << client.put_del_info(fName, 0) << "\n";
+            }
+
+            else if (command == MsgType::DELETE)
+            {
+                std::cout << "input filename and extension to delete: ";
+                std::cin >> fName;
+                std::cout << client.put_del_info(fName, 1) << "\n";
+            }
+
+            else if (command == MsgType::INFO)
+            {
+                std::cout << "input filename to get info: ";
+                std::cin >> fName;
+                std::cout << client.put_del_info(fName, 2) << "\n";
+            }
         }
 
         client.stop();

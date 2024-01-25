@@ -53,12 +53,38 @@ void TCPServer::poll()
             // std::cout << "here is bufdata: " << bufdata;
             std::string response;
             
-            if (bufdata.find("txt") != std::string::npos) 
+            if (bufdata.find("txt") != std::string::npos && bufdata.find("put") != std::string::npos)
+            {
+                bufdata.erase(0,4);
+                if (utils::create_file(bufdata) == -1)
+                {
+                    response = "create failed";
+                }
+                else response = "create success";
+            }
+
+            else if (bufdata.find("txt") != std::string::npos && bufdata.find("delete") != std::string::npos)
+            {
+                bufdata.erase(0,7);
+                if (utils::delete_file(bufdata) == -1)
+                {
+                    response = "delete failed";
+                }
+                else response = "delete succeeded";
+            }
+
+            else if (bufdata.find("txt") != std::string::npos && bufdata.find("info") != std::string::npos)
+            {
+                bufdata.erase(0,5);
+                response = utils::get_file_info(bufdata);
+            }
+
+            else if (bufdata.find("txt") != std::string::npos) 
             {
                 response = utils::get_file(bufdata);
             }
 
-            if (bufdata.find("list") != std::string::npos) 
+            else if (bufdata.find("list") != std::string::npos) 
             {
                 response = utils::list_files();
             }

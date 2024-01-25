@@ -14,7 +14,7 @@ public:
     int start();
     std::string get(const std::string& filename);
     std::string list();
-
+    std::string put_del_info(const std::string& filename, int mode); // mode info in implementation enum
     void stop() {close(sock);};
 
 private:
