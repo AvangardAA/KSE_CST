@@ -4,7 +4,7 @@ mkdir build && cd build
 
 cmake ..
 
-than use 
+then use 
 
 make
 
