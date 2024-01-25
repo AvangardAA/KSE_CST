@@ -5,17 +5,20 @@
 
 class TCPClient
 {
-    TCPClient(int& port)
+public:
+    TCPClient(int port)
     {
         sockport = port;
     }
 
-public:
     int start();
+    std::string get(const std::string& filename);
+
+    void stop() {close(sock);};
 
 private:
     int sockport = 0;
-    const char* servAddr = "127.0.0.1";
+    const char* servIp = "127.0.0.1";
     sockaddr_in servInfo;
     int sock = 0;
 };

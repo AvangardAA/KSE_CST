@@ -5,16 +5,22 @@
 
 class TCPServer
 {
-    TCPServer(int& port)
+public:
+    TCPServer(int port)
     {
         sockPort = port;
     }
 
-public:
-    void start();
+    int start();
+
+    void poll();
+
+    void stop() {close(sock);};
 
 private:
     int sockPort = 0;
-    sockaddr_in serverAddr;
+    sockaddr_in servInfo;
+    sockaddr_in clientAddr{};
     int sock = 0;
+    int clientsock = 0;
 };
