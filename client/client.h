@@ -13,6 +13,7 @@ public:
 
     int start();
     std::string get(const std::string& filename);
+    std::string list();
 
     void stop() {close(sock);};
 

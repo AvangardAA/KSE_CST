@@ -1,5 +1,6 @@
 #include <fstream>
 #include <sstream>
+#include <filesystem>
 
 namespace utils
 {
@@ -16,5 +17,19 @@ namespace utils
         std::cout << oss.str();
 
         return oss.str();
+    }
+
+    std::string list_files()
+    {
+        std::string res = "";
+        for (const auto& entry : std::filesystem::directory_iterator(std::filesystem::current_path()))
+        {
+            if (entry.is_regular_file() && entry.path().extension() == ".txt") 
+            {
+                res += entry.path().filename().string() + "\n";
+            }
+        }
+
+        return res;
     }
 }

@@ -1,6 +1,7 @@
 #include "server.h"
 #include <fstream>
 #include "utils.hpp"
+#include <string>
 
 int TCPServer::start()
 {
@@ -50,11 +51,21 @@ void TCPServer::poll()
         {
             std::string bufdata(buffer, sizeof(buffer));
             // std::cout << "here is bufdata: " << bufdata;
-            std::string filecontent = utils::get_file(bufdata);
+            std::string response;
+            
+            if (bufdata.find("txt") != std::string::npos) 
+            {
+                response = utils::get_file(bufdata);
+            }
+
+            if (bufdata.find("list") != std::string::npos) 
+            {
+                response = utils::list_files();
+            }
 
             // std::cout << "file content: " << filecontent;
 
-            send(clientsock, filecontent.c_str(), strlen(filecontent.c_str()), 0);
+            send(clientsock, response.c_str(), strlen(response.c_str()), 0);
         }
     }
 

@@ -34,12 +34,17 @@ int main()
                 if (res == "missing")
                 {
                     std::cout << "your file is missing";
-                    return 0;
                 }
                 else
                 {
                     std::cout << res << "\n\n";
                 }
+            }
+
+            else if (command == MsgType::LIST)
+            {
+                std::cout << "available files in server directory:\n";
+                std::cout << client.list() << "\n";
             }
         }
 

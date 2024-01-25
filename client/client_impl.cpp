@@ -33,5 +33,19 @@ std::string TCPClient::get(const std::string& filename)
     {
         return std::string(buffer, sizeof(buffer));
     }
-    else return "missing";
+    else return "something went wrong";
+}
+
+std::string TCPClient::list()
+{
+    std::string dummyMsg = "list";
+    send(sock, dummyMsg.c_str(), strlen(dummyMsg.c_str()), 0);
+    char buffer[1024];
+    memset(buffer, 0, 1024);
+    ssize_t bytesReceived = recv(sock, buffer, sizeof(buffer), 0);
+    if (bytesReceived > 0)
+    {
+        return std::string(buffer, sizeof(buffer));
+    }
+    else return "something went wrong";
 }
