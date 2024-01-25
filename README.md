@@ -1,12 +1,19 @@
-In order to use this, please install everything, than
+In order to use this, please install everything, then
+
 mkdir build && cd build
+
 cmake ..
-than use make
+
+than use 
+
+make
 
 Launch sequence: server -> client
 Exit sequence: client -> server
 
-If exit sequence is broken, then killall -9 client/server and wait 1-2 min
+If exit sequence is broken, then 
+
+killall -9 client/server and wait 1-2 min
 
 Limitations: 1024 bytes for file content
 
