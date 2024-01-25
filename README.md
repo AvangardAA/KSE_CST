@@ -9,6 +9,7 @@ then use
 make
 
 Launch sequence: server -> client
+
 Exit sequence: client -> server
 
 If exit sequence is broken, then 
