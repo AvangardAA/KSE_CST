@@ -22,15 +22,29 @@ namespace utils
         return oss.str();
     }
 
-    std::string list_files()
+    std::string list_files(const std::string& dir)
     {
         std::string res = "";
-        for (const auto& entry : std::filesystem::directory_iterator(std::filesystem::current_path()))
+        try 
         {
-            if (entry.is_regular_file() && entry.path().extension() == ".txt") 
+            std::filesystem::path fp = std::filesystem::current_path().string() + "/" + dir;
+
+            if (!std::filesystem::exists(fp))
             {
-                res += entry.path().filename().string() + "\n";
+                std::filesystem::create_directory(fp);
             }
+
+            for (const auto& entry : std::filesystem::directory_iterator(fp)) 
+            {
+                if (entry.is_regular_file() && entry.path().extension() == ".txt") 
+                {
+                    res += entry.path().filename().string() + "\n";
+                }
+            }
+        }
+        catch(...) 
+        {
+            res = "error with directory";
         }
 
         return res;

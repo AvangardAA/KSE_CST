@@ -15,6 +15,7 @@ public:
     std::string get(const std::string& filename);
     std::string list();
     std::string put_del_info(const std::string& filename, int mode); // mode info in implementation enum
+    std::string set_directory(const std::string& filename);
     void stop() {close(sock);};
 
 private:

@@ -4,6 +4,7 @@
 #include <arpa/inet.h>
 #include <vector>
 #include <thread>
+#include <set>
 
 class TCPServer
 {
@@ -23,6 +24,7 @@ public:
 
 private:
     int sockPort = 0;
+    std::set<std::string> usedDirs;
     sockaddr_in servInfo;
     sockaddr_in clientAddr{};
     int sock = 0;

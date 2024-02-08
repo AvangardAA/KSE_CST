@@ -7,7 +7,8 @@ enum MsgType
     LIST,
     PUT,
     DELETE,
-    INFO
+    INFO,
+    SET_DIR
 };
 
 int main() 
@@ -22,7 +23,7 @@ int main()
         while (true)
         {
             int command;
-            std::cout << "\ninput type of msg: (GET - 0, LIST - 1, PUT - 2, DELETE - 3, INFO - 4): ";
+            std::cout << "\ninput type of msg: (GET - 0, LIST - 1, PUT - 2, DELETE - 3, INFO - 4, SET_DIR - 5): ";
             std::cin >> command;
             std::string fName;
 
@@ -66,6 +67,13 @@ int main()
                 std::cout << "input filename to get info: ";
                 std::cin >> fName;
                 std::cout << client.put_del_info(fName, 2) << "\n";
+            }
+
+            else if (command == MsgType::SET_DIR)
+            {
+                std::cout << "input dir name: ";
+                std::cin >> fName;
+                std::cout << client.set_directory(fName) << "\n";
             }
         }
 

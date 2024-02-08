@@ -34,6 +34,8 @@ int TCPServer::start()
 
 void TCPServer::manage_connection(int ClSocket)
 {
+    std::string SeshNameSet = "";
+
     while (true)
     {
         try
@@ -46,44 +48,60 @@ void TCPServer::manage_connection(int ClSocket)
                 std::string bufdata(buffer, sizeof(buffer));
                 // std::cout << "here is bufdata: " << bufdata;
                 std::string response;
-                
-                if (bufdata.find("txt") != std::string::npos && bufdata.find("put") != std::string::npos)
+
+                if (!(SeshNameSet == ""))
                 {
-                    bufdata.erase(0,4);
-                    if (utils::create_file(bufdata) == -1)
+                    if (bufdata.find("txt") != std::string::npos && bufdata.find("put") != std::string::npos)
                     {
-                        response = "create failed";
+                        bufdata.erase(0,4);
+                        if (utils::create_file(bufdata) == -1)
+                        {
+                            response = "create failed";
+                        }
+                        else response = "create success";
                     }
-                    else response = "create success";
-                }
 
-                else if (bufdata.find("txt") != std::string::npos && bufdata.find("delete") != std::string::npos)
-                {
-                    bufdata.erase(0,7);
-                    if (utils::delete_file(bufdata) == -1)
+                    else if (bufdata.find("txt") != std::string::npos && bufdata.find("delete") != std::string::npos)
                     {
-                        response = "delete failed";
+                        bufdata.erase(0,7);
+                        if (utils::delete_file(bufdata) == -1)
+                        {
+                            response = "delete failed";
+                        }
+                        else response = "delete succeeded";
                     }
-                    else response = "delete succeeded";
+
+                    else if (bufdata.find("txt") != std::string::npos && bufdata.find("info") != std::string::npos)
+                    {
+                        bufdata.erase(0,5);
+                        response = utils::get_file_info(bufdata);
+                    }
+
+                    else if (bufdata.find("txt") != std::string::npos) 
+                    {
+                        response = utils::get_file(bufdata);
+                    }
+
+                    else if (bufdata.find("list") != std::string::npos) 
+                    {
+                        response = utils::list_files(SeshNameSet);
+                    }
                 }
 
-                else if (bufdata.find("txt") != std::string::npos && bufdata.find("info") != std::string::npos)
+                else
                 {
-                    bufdata.erase(0,5);
-                    response = utils::get_file_info(bufdata);
-                }
+                    if (usedDirs.count(bufdata))
+                    {
+                        response = "sorry, this folder is already used";
+                    }
 
-                else if (bufdata.find("txt") != std::string::npos) 
-                {
-                    response = utils::get_file(bufdata);
+                    else
+                    {
+                        SeshNameSet = bufdata;
+                        usedDirs.insert(bufdata);
+                        response = "ok";
+                    }
                 }
-
-                else if (bufdata.find("list") != std::string::npos) 
-                {
-                    response = utils::list_files();
-                }
-
-                // std::cout << "file content: " << filecontent;
 
                 send(ClSocket, response.c_str(), strlen(response.c_str()), 0);
             }
