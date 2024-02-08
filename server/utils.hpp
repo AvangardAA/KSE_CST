@@ -2,12 +2,13 @@
 #include <sstream>
 #include <filesystem>
 #include <sys/stat.h>
+#include <iostream>
 
 namespace utils
 {
-    std::string get_file(const std::string& filename)
+    std::string get_file(const std::string& dir, const std::string& filename)
     {
-        std::ifstream file(filename, std::ios::binary);
+        std::ifstream file("\\"+dir+"\\"+filename, std::ios::binary);
         if (!file.is_open()) 
         {
             return "missing";
@@ -50,9 +51,9 @@ namespace utils
         return res;
     }
 
-    int create_file(const std::string& filename)
+    int create_file(const std::string& dir, const std::string& filename)
     {
-        std::ofstream file(filename, std::ios::binary);
+        std::ofstream file("\\"+dir+"\\"+filename, std::ios::binary);
         if (!file.is_open())
         {
             return -1;

@@ -54,7 +54,7 @@ void TCPServer::manage_connection(int ClSocket)
                     if (bufdata.find("txt") != std::string::npos && bufdata.find("put") != std::string::npos)
                     {
                         bufdata.erase(0,4);
-                        if (utils::create_file(bufdata) == -1)
+                        if (utils::create_file(SeshNameSet, bufdata) == -1)
                         {
                             response = "create failed";
                         }
@@ -79,7 +79,7 @@ void TCPServer::manage_connection(int ClSocket)
 
                     else if (bufdata.find("txt") != std::string::npos) 
                     {
-                        response = utils::get_file(bufdata);
+                        response = utils::get_file(SeshNameSet, bufdata);
                     }
 
                     else if (bufdata.find("list") != std::string::npos) 
