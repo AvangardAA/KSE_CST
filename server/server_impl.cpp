@@ -45,7 +45,7 @@ void TCPServer::manage_connection(int ClSocket)
             ssize_t bytesReceived = recv(ClSocket, buffer, sizeof(buffer), 0);
             if (bytesReceived > 0) 
             {
-                std::string bufdata(buffer, sizeof(buffer));
+                std::string bufdata(buffer, bytesReceived);
                 // std::cout << "here is bufdata: " << bufdata;
                 std::string response;
 
@@ -64,7 +64,7 @@ void TCPServer::manage_connection(int ClSocket)
                     else if (bufdata.find("txt") != std::string::npos && bufdata.find("delete") != std::string::npos)
                     {
                         bufdata.erase(0,7);
-                        if (utils::delete_file(bufdata) == -1)
+                        if (utils::delete_file(SeshNameSet, bufdata) == -1)
                         {
                             response = "delete failed";
                         }
@@ -74,7 +74,7 @@ void TCPServer::manage_connection(int ClSocket)
                     else if (bufdata.find("txt") != std::string::npos && bufdata.find("info") != std::string::npos)
                     {
                         bufdata.erase(0,5);
-                        response = utils::get_file_info(bufdata);
+                        response = utils::get_file_info(SeshNameSet, bufdata);
                     }
 
                     else if (bufdata.find("txt") != std::string::npos) 

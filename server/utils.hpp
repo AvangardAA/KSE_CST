@@ -8,7 +8,7 @@ namespace utils
 {
     std::string get_file(const std::string& dir, const std::string& filename)
     {
-        std::ifstream file("\\"+dir+"\\"+filename, std::ios::binary);
+        std::ifstream file((std::filesystem::current_path().string() + "/" + dir + "/" + filename), std::ios::binary);
         if (!file.is_open()) 
         {
             return "missing";
@@ -16,7 +16,6 @@ namespace utils
 
         std::ostringstream oss;
         oss << file.rdbuf();
-        //std::cout << oss.str();
 
         file.close();
 
@@ -53,7 +52,7 @@ namespace utils
 
     int create_file(const std::string& dir, const std::string& filename)
     {
-        std::ofstream file("\\"+dir+"\\"+filename, std::ios::binary);
+        std::ofstream file((std::filesystem::current_path().string() + "/" + dir + "/" + filename), std::ios::binary);
         if (!file.is_open())
         {
             return -1;
@@ -65,23 +64,25 @@ namespace utils
         return 1;
     }
 
-    int delete_file(const std::string& filename)
+    int delete_file(const std::string& dir, const std::string& filename)
     {
         try
         {
-            std::filesystem::remove(filename);
+            std::filesystem::path fp = std::filesystem::current_path().string() + "/" + dir + "/" + filename;
+            std::filesystem::remove(fp);
             return 1;
         }
         catch(const std::filesystem::filesystem_error& e)
         {
+            std::cout << e.what();
             return -1;
         }
     }
 
-    std::string get_file_info(const std::string& filename)
+    std::string get_file_info(const std::string& dir, const std::string& filename)
     {
         struct stat fileStat;
-        if (stat(filename.c_str(), &fileStat) == 0) 
+        if (stat((std::filesystem::current_path().string() + "/" + dir + "/" + filename).c_str(), &fileStat) == 0) 
         {
             std::stringstream info;
             info << "File found: " << filename << "\n";
