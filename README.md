@@ -27,3 +27,7 @@ Limitations: 1024 bytes for file content
 
 4 to get file info (full name with extension)
 ```
+
+HW2
+
+![Screenshot from 2024-02-26 03-20-28](https://github.com/AvangardAA/KSE_CST/assets/70914823/436b00e1-21ef-4239-ae81-b1d41ec6012c)
