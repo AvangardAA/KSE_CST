@@ -2,6 +2,7 @@
 #include <cstring>
 #include <unistd.h>
 #include <arpa/inet.h>
+#include <thread>
 
 class TCPClient
 {
@@ -16,6 +17,8 @@ public:
     std::string list();
     std::string put_del_info(const std::string& filename, int mode); // mode info in implementation enum
     std::string set_directory(const std::string& filename);
+    std::string send_hello(int roomname);
+    std::string send_msg(const std::string& msg);
     void stop() {close(sock);};
 
 private:

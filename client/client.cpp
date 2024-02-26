@@ -20,61 +20,17 @@ int main()
     }
     else
     {
+        int roomID;
+        std::cout << "\nHello, type room ID to connect (0-2): ";
+        std::cin >> roomID;
+        client.send_hello(roomID);
+
         while (true)
         {
-            int command;
-            std::cout << "\ninput type of msg: (GET - 0, LIST - 1, PUT - 2, DELETE - 3, INFO - 4, SET_DIR - 5): ";
-            std::cin >> command;
-            std::string fName;
-
-            if (command == MsgType::GET)
-            {
-                std::cout << "\ninput filename to get with extension (.): "; 
-                std::cin >> fName;
-                std::string res = client.get(fName);
-                if (res == "missing")
-                {
-                    std::cout << "your file is missing";
-                }
-                else
-                {
-                    std::cout << res << "\n\n";
-                }
-            }
-
-            else if (command == MsgType::LIST)
-            {
-                std::cout << "available files in server directory:\n";
-                std::cout << client.list() << "\n";
-            }
-
-            else if (command == MsgType::PUT)
-            {
-                std::cout << "input filename and extension to create: ";
-                std::cin >> fName;
-                std::cout << client.put_del_info(fName, 0) << "\n";
-            }
-
-            else if (command == MsgType::DELETE)
-            {
-                std::cout << "input filename and extension to delete: ";
-                std::cin >> fName;
-                std::cout << client.put_del_info(fName, 1) << "\n";
-            }
-
-            else if (command == MsgType::INFO)
-            {
-                std::cout << "input filename to get info: ";
-                std::cin >> fName;
-                std::cout << client.put_del_info(fName, 2) << "\n";
-            }
-
-            else if (command == MsgType::SET_DIR)
-            {
-                std::cout << "input dir name: ";
-                std::cin >> fName;
-                std::cout << client.set_directory(fName) << "\n";
-            }
+            std::string msg;
+            std::cout << "\ninput msg to send to chat: ";
+            std::cin >> msg;
+            std::cout << client.send_msg(msg) << "\n";
         }
 
         client.stop();

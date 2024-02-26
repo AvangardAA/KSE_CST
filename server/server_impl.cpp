@@ -2,6 +2,8 @@
 #include <fstream>
 #include "utils.hpp"
 #include <string>
+#include <thread>
+#include <mutex>
 
 int TCPServer::start()
 {
@@ -28,14 +30,13 @@ int TCPServer::start()
         close(sock);
         return -1;
     }
-
     return 1;
 }
 
 void TCPServer::manage_connection(int ClSocket)
 {
-    std::string SeshNameSet = "";
-
+    int roomIdInternal = 0;
+    std::string response;
     while (true)
     {
         try
@@ -47,60 +48,28 @@ void TCPServer::manage_connection(int ClSocket)
             {
                 std::string bufdata(buffer, bytesReceived);
                 // std::cout << "here is bufdata: " << bufdata;
-                std::string response;
 
-                if (!(SeshNameSet == ""))
+                if (bufdata.find("hello") != std::string::npos) // connect to room
                 {
-                    if (bufdata.find("txt") != std::string::npos && bufdata.find("put") != std::string::npos)
+                    bufdata.erase(0,6);
+                    roomIdInternal = std::stoi(bufdata);
+                    std::cerr << "CLIENT ON SOCK: " << std::to_string(ClSocket) << " CONNECTED TO ROOM: " << bufdata << "\n";
+                    response = "you are connected";
+                    if (roomIdInternal == 0)
                     {
-                        bufdata.erase(0,4);
-                        if (utils::create_file(SeshNameSet, bufdata) == -1)
-                        {
-                            response = "create failed";
-                        }
-                        else response = "create success";
+                        aint1 += 1;
                     }
-
-                    else if (bufdata.find("txt") != std::string::npos && bufdata.find("delete") != std::string::npos)
+                    else if (roomIdInternal == 1)
                     {
-                        bufdata.erase(0,7);
-                        if (utils::delete_file(SeshNameSet, bufdata) == -1)
-                        {
-                            response = "delete failed";
-                        }
-                        else response = "delete succeeded";
+                        aint2 += 1;
                     }
-
-                    else if (bufdata.find("txt") != std::string::npos && bufdata.find("info") != std::string::npos)
-                    {
-                        bufdata.erase(0,5);
-                        response = utils::get_file_info(SeshNameSet, bufdata);
-                    }
-
-                    else if (bufdata.find("txt") != std::string::npos) 
-                    {
-                        response = utils::get_file(SeshNameSet, bufdata);
-                    }
-
-                    else if (bufdata.find("list") != std::string::npos) 
-                    {
-                        response = utils::list_files(SeshNameSet);
-                    }
+                    else aint3 += 1;
                 }
 
-                else
+                if (bufdata.find("send") != std::string::npos) // connect to room
                 {
-                    if (usedDirs.count(bufdata))
-                    {
-                        response = "sorry, this folder is already used";
-                    }
-
-                    else
-                    {
-                        SeshNameSet = bufdata;
-                        usedDirs.insert(bufdata);
-                        response = "ok";
-                    }
+                    bufdata.erase(0,5);
+                    response = "received message";
                 }
 
                 send(ClSocket, response.c_str(), strlen(response.c_str()), 0);

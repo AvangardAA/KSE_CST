@@ -99,3 +99,37 @@ std::string TCPClient::put_del_info(const std::string& filename, int mode)
     }
     else return "something went wrong";
 }
+
+std::string TCPClient::send_hello(int roomname)
+{
+    std::string dummyMsg = "";
+
+    dummyMsg += "hello " + std::to_string(roomname);
+
+    send(sock, dummyMsg.c_str(), strlen(dummyMsg.c_str()), 0);
+    char buffer[1024];
+    memset(buffer, 0, 1024);
+    ssize_t bytesReceived = recv(sock, buffer, sizeof(buffer), 0);
+    if (bytesReceived > 0)
+    {
+        return std::string(buffer, sizeof(buffer));
+    }
+    else return "something went wrong";
+}
+
+std::string TCPClient::send_msg(const std::string& msg)
+{
+    std::string dummyMsg = "";
+
+    dummyMsg += "send " + msg;
+
+    send(sock, dummyMsg.c_str(), strlen(dummyMsg.c_str()), 0);
+    char buffer[1024];
+    memset(buffer, 0, 1024);
+    ssize_t bytesReceived = recv(sock, buffer, sizeof(buffer), 0);
+    if (bytesReceived > 0)
+    {
+        return std::string(buffer, sizeof(buffer));
+    }
+    else return "something went wrong";
+}
