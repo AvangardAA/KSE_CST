@@ -1,33 +1,36 @@
-In order to use this, please install everything, then
-```
-mkdir build && cd build
-cmake ..
-```
-then use 
-```
-make
-```
-Launch sequence: server -> client
+# HW 4
 
-Exit sequence: client -> server
+I`ll use TCPDump instead of Wireshark
 
-If exit sequence is broken, then 
+In order to launch it with appropriate info, start command is:
 ```
-killall -9 client/server and wait 1-2 min
-```
-Limitations: 1024 bytes for file content
-```
-0 to get file contents
-
-1 to list files
-
-2 to put file with its name (extension together with name)
-
-3 to delete file (full name with extension)
-
-4 to get file info (full name with extension)
+sudo tcpdump -i lo -X -vv 'tcp port <port>'
 ```
 
-HW2
+Starting of with HW2 and HW3 analysis, lets break-up them to 3 parts:
+```
+1. Connection when client starts
+2. Message swap between client and server
+3. Disconnect
+```
 
-![Screenshot from 2024-02-26 03-20-28](https://github.com/AvangardAA/KSE_CST/assets/70914823/436b00e1-21ef-4239-ae81-b1d41ec6012c)
+# HW3
+
+# 1.
+Our connection part of communication is quite simple, over here on screenshot we can see the SYN-SYNACK sequence, when client initiates an
+connection and server accepts it. Interesting parts of this is MSS, which is maximum TCP segment size which our server can receive in single packet,
+the TCP protocol itself, and 0 payload since we dont send anything to server at this moment
+![Screenshot from 2024-03-02 14-59-31](https://github.com/AvangardAA/KSE_CST/assets/70914823/4afac19c-bd17-4d51-beb5-14ec51ea1062)
+
+# 2.
+Then basically any transfered message as functionality of server and client on this level will be PUSH-ACK sequence, where initiator pushes data and remote host accepts it with acknowledge.
+
+Screenshots for connection to room and message to room from client
+![Screenshot from 2024-03-02 15-03-07](https://github.com/AvangardAA/KSE_CST/assets/70914823/6cdd70b3-7271-46b3-a92d-d3c2369027df)
+![Screenshot from 2024-03-02 15-02-39](https://github.com/AvangardAA/KSE_CST/assets/70914823/4b7ffdfb-9a49-4abb-af32-f667b910c83b)
+
+# 3.
+And connection close happens at the end, where with normal conditions when client closes and server confirms closure it can be observed like that (grateful close in tcp is client FIN,ACK -> server FIN,ACK):
+![Screenshot from 2024-03-02 15-03-55](https://github.com/AvangardAA/KSE_CST/assets/70914823/77d5eebc-9136-447f-8669-c9f1e086db1a)
+
+
