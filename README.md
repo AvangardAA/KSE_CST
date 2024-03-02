@@ -38,4 +38,9 @@ And connection close happens at the end, where with normal conditions when clien
 On TCP (L4) level, our client-server functionality such as connect,rejoin,send message is nothing else as PSH,ACK, because only software on server and client knows for what this instructions are needed and their flow.
 Only different things we can observe is connection open, connection close, message transfer and message transfer truncation, when either client or server is sending big chunk of data which they cant process as single payload
 
+# HW 2:
 
+#1 and #3 parts of this assignment will be absolutely the same as with hw3, so screenshots given before are still actual but will have different payload if we are talking about message transfer, files in assignment are created from an raw payload which is name of file and its contents, so file generation happens on server with capabilities of software.
+
+# General remarks
+To understand clearly how tcpdump and wireshark works, the main thing is generally knowledge about OSI model, so that programmer can understand that TCP part is then encapsulated in IP and then in Ethernet frame. tcpdump as well as wireshark provides huge possibilites in terms of traffic analysis, so covering them up on such tasks isnt going to show something really interesting, but what helped me to understand more when doing this assignment and programming stuff like that is OSI model reference, L4 headers structure (in our case TCP) and how it can be accessed using software
