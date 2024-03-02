@@ -33,4 +33,9 @@ Screenshots for connection to room and message to room from client
 And connection close happens at the end, where with normal conditions when client closes and server confirms closure it can be observed like that (grateful close in tcp is client FIN,ACK -> server FIN,ACK):
 ![Screenshot from 2024-03-02 15-03-55](https://github.com/AvangardAA/KSE_CST/assets/70914823/77d5eebc-9136-447f-8669-c9f1e086db1a)
 
+# Remarks about HW3:
+
+On TCP (L4) level, our client-server functionality such as connect,rejoin,send message is nothing else as PSH,ACK, because only software on server and client knows for what this instructions are needed and their flow.
+Only different things we can observe is connection open, connection close, message transfer and message transfer truncation, when either client or server is sending big chunk of data which they cant process as single payload
+
 
